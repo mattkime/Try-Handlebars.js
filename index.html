@@ -12,14 +12,12 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	
-	<meta name="viewport" content="width=1000, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link rel="shortcut icon" href="/favicon.ico">
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 	<link rel="stylesheet" href="css/main.css">
-	<script src="js/plugins.js"></script>
 	<script src="js/libs/modernizr-2.8.3.min.js"></script>
-	<script src="components/handlebars/handlebars.js"></script>	
 	<script data-main="js/script" src="components/requirejs-bower/require.js"></script>
 		
 <script id ="getting-started-1" type="text/x-handlebars-template">
@@ -210,6 +208,15 @@ Handlebars.registerHelper('list', function(items, options) {
 }
 </script>
 
+<script id ="paths-4" type="text/x-handlebars-template">
+<p>{{this.content}}</p>
+<p>{{this.[10]}}</p>
+</script>
+
+<script id ="paths-4-context" type="text/x-handlebars-template">
+{ content: 'how can i access a numeric key?', '10':'with brackets!' }
+</script>
+
 <script id ="helpers-1" type="text/x-handlebars-template">
 <div class="post">
   <h1>By {{fullName author}}</h1>
@@ -244,7 +251,7 @@ Handlebars.registerHelper('fullName', function(person) {
 <script id ="helpers-2" type="text/x-handlebars-template">
 <ul>
   {{#each items}}
-    <li>{{{agree_button}}}</li>
+    {{{agree_button}}}
   {{/each}}
 </ul>
 </script>
@@ -265,63 +272,6 @@ Handlebars.registerHelper('agree_button', function() {
 });
 </script>
 
-<script id ="main-content" type="text/x-handlebars-template">	
-		
-	
-	<div class="entry padding--all">	
-		
-		<div id="samples" class="borderradius">
-			<select>
-      				{{#samples}}
-					<option value="{{link}}">{{title}}</option>
-				{{/samples}}
-			</select>
-		</div>
-		
-		<!-- div>
-    
-			<input class="compile" type="submit" value="Compile Handlebars Template" />
-			<p>Handlebars.VERSION: {{getHandlebarsVersion}}</p>
-			<p class="errors"><span></span></p>
-		</div -->
-
-<div class="spreadable atLarge_spreadable--spread">
-			
-		<div class="spreadable-item">	
-			<label for="source">Handlebars Template</label>
-			<textarea id="source" type="textarea" spellcheck="false">{{source}}</textarea>
-		</div>
-
-		<div class="spreadable-item">	
-			<label for="context">Context (JavaScript literal or JSON) </label>
-			<textarea id="context" type="textarea" spellcheck="false">{{context}}</textarea>
-		</div>	
-		
-		<div class="spreadable-item">
-			<label for="helpers">Register Helper functions (if any)</label>
-			<textarea id="helpers" type="textarea" spellcheck="false">{{helpers}}</textarea>
-		</div>
-</div>
-		
-		<div class="padding--top">
-			<input class="compile" type="submit" value="Compile Handlebars Template" />
-			<p>Handlebars.VERSION: {{getHandlebarsVersion}}</p>
-			<p class="errors"><span></span></p>
-		</div>
-	</div>
-
-	<div class="output spreadable atLarge_spreadable--spread padding--all border--top">
-		<div class="spreadable-item">
-		<p>HTML Source Output</p>
-		<textarea id="output-window">{{output}}</textarea>
-		</div>
-		<div class="spreadable-item">
-		<p>HTML Preview</p>
-		<div id="output-window-html">{{{output}}}</div>
-		</div>
-	</div>
-</script>
-
 </head>
 <body style="background-color:orange;">
 	<div id="container">
@@ -332,16 +282,72 @@ Handlebars.registerHelper('agree_button', function() {
 				<a href="http://www.handlebarsjs.com">Handlebars.js</a> is a sweet javascript library for building clean logicless templates
 				 based on the
 				<a href="http://mustache.github.com/">Mustache Templating Language</a>.
-        
-				
 			</p>
 
 		</section>
 
-		<div id="main" role="main" class="borderradius"></div>
+		<div id="main" role="main" class="borderradius">
+	<div class="padding--all">
+		<div class="spreadable atLarge_spreadable--spread">
+			<div class="spreadable-item spreadable-item--shrink try-hbs--select-label spreadable-item--label row-item--alignMiddle">
+				<label for="examples" class="try-hbs--label">Examples</label>
+			</div>
+			<div class="spreadable-item">
+				<select id="example"></select>
+			</div>
+		</div>
+		<div class="spreadable atLarge_spreadable--spread">
+			<div class="spreadable-item spreadable-item--shrink try-hbs--select-label spreadable-item--label row-item--alignMiddle">
+				<label for="engine" class="try-hbs--label try-hbs--select-label">Engine</label>
+			</div>
+			<div class="spreadable-item">
+				<select id="engine">
+					<option value="hbs402">Handlebars v4.0.2</option>
+					<option value="hbs303">Handlebars v3.0.3</option>
+					<option value="hbs200">Handlebars v2.0.0</option>
+					<option value="hbs130">Handlebars v1.3.0</option>
+					<option value="mustache213">Mustache v2.1.3</option>
+					<option value="mustache120">Mustache v1.2.0</option>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="spreadable atLarge_spreadable--spread padding--all border--top">
+		<div class="spreadable-item">
+			<label for="source" class="try-hbs--label">Handlebars Template</label>
+			<textarea id="source" type="textarea" spellcheck="false">{{source}}</textarea>
+		</div>
+		<div class="spreadable-item">
+			<label for="context" class="try-hbs--label">Context (JavaScript literal or JSON) </label>
+			<textarea id="context" type="textarea" spellcheck="false">{{context}}</textarea>
+		</div>
+		<div id="helpersWrap" class="spreadable-item">
+			<label for="helpers" class="try-hbs--label">Register Helper functions (if any)</label>
+			<textarea id="helpers" type="textarea" spellcheck="false">{{helpers}}</textarea>
+		</div>
+	</div>
+	<div>
+		<input class="compile" type="submit" value="Compile Handlebars Template" />
+		<p class="errors padding--left padding--right"><span></span></p>
+	</div>
+
+	<div class="output spreadable atLarge_spreadable--spread padding--all">
+		<div class="spreadable-item">
+			<p>HTML Source Output</p>
+			<textarea id="output-window">{{output}}</textarea>
+			</div>
+			<div class="spreadable-item">
+			<p>HTML Preview</p>
+			<div id="output-window-html">{{{output}}}</div>
+		</div>
+	</div>
+
+</div>
 		
 		<footer style="background-color:orange;" class="padding--all">
-			<p>Site by <a href="http://www.jblotus.com">James Fuller</a> Twitter: <a href="https://twitter.com/#!/j_blotus">@j_blotus</a></p> 
+                        <p>Site by <a href="http://www.jblotus.com">James Fuller</a> Twitter: <a href="https://twitter.com/j_blotus">@j_blotus</a></p>
+                        <p>and <a href="http://mattki.me">Matthew Kime</a> Twitter: <a href="https://twitter.com/matt_kime">@matt_kime</a></p>
             
       <p>
         Want to add something? <a href="https://github.com/jblotus/Try-Handlebars.js">Fork this on GitHub</a> and send me a pull request.
@@ -349,12 +355,6 @@ Handlebars.registerHelper('agree_button', function() {
 		</footer>
 	</div>
 
-	<!-- script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-	<script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.5.1.min.js"%3E%3C/script%3E'))</script -->
-	<!--[if lt IE 7 ]>
-	<script src="js/libs/dd_belatedpng.js"></script>
-	<script> DD_belatedPNG.fix('img, .png_bg');</script>
-	<![endif]-->
 	<script type="text/javascript">
 	
 	  var _gaq = _gaq || [];

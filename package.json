@@ -8,6 +8,10 @@
   },
   "name": "tryhandlebarsjs",
   "private": true,
+  "contributors": [
+    "James Fuller (http://www.jblotus.com/)",
+    "Matthew Kime <matt@mattki.me> (http://mattki.me/)"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/jblotus/Try-Handlebars.js.git"
@@ -24,6 +28,6 @@
   },
   "main": "Gruntfile.js",
   "scripts": {
-    "install" : "bower install; cd components/sassquatch2; bower install; cd ../.."
+    "install" : "bower install; cd components/sassquatch2; bower install; cd ../..; grunt sass;"
   }
 }
