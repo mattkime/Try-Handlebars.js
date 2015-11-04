@@ -95,19 +95,20 @@ $_padding: 10px $space $space-half $space;
 	}
 }
 
+// !important declarations override inverted context
 @mixin primaryButton( $color: $C_red ) {
 	$_borderColor: darken($color, 25%);
 	@extend %_buttonBaseSQ1;
 	@include color-all(getPrimaryTextColor($color));
-	background: $color;
-	box-shadow: 0 $_shadowWidth 0 0 $_borderColor;
+	background: $color !important;
+	box-shadow: 0 $_shadowWidth 0 0 $_borderColor !important;
 
 	&:active {
-		box-shadow: 0 ($_shadowWidth - $_translate) 0 0 $_borderColor;
+		box-shadow: 0 ($_shadowWidth - $_translate) 0 0 $_borderColor !important;
 	}
 
 	&:hover {
-		background: darken($color, $_hoverChange);
+		background: darken($color, $_hoverChange) !important;
 	}
 }
 
@@ -126,8 +127,9 @@ $_padding: 10px $space $space-half $space;
 //
 %button--small,
 .button--small {
-	font-size: $font-size-small;
-	padding: $space-quarter $space-half;
+	// important during transitional phase
+	font-size: $font-size-small !important;
+	padding: $space-quarter $space-half !important;
 }
 
 %button--fullWidth,
@@ -210,5 +212,5 @@ $_iconGutter: $space/2;
 }
 
 .button--small .button-icon {
-	height: $font-size;
+	height: $font-size !important;
 }

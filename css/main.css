@@ -164,12 +164,42 @@ Disables user-select, sets cursor, and resets text-decoration.
 @extend %buttonPersonality;
 ```
 */
-.hasJS .menu-actions-item a, .buttonPersonality {
+.button--primary, .button--contrast, .button, .button--borderless, .hasJS .menu-actions-item a, .buttonPersonality {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
   cursor: pointer;
   text-decoration: none !important;
+}
+
+.toggleButton-label {
+  box-sizing: border-box;
+  -webkit-transition: background 0.15s;
+  transition: background 0.15s;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 50px;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  padding: 8px 16px;
+  text-align: center;
+}
+.toggleButton-label:focus {
+  outline: 0;
+}
+
+.toggleButton-label {
+  stroke: transparent;
+  fill: #3987cb;
+  color: #3987cb;
+  border: 1px solid;
+  font-weight: 400;
+}
+.toggleButton-label:hover, .toggleButton-label:active, .toggleButton-label:focus {
+  background: rgba(57, 135, 203, 0.2) !important;
 }
 
 /*doc
@@ -1967,7 +1997,6 @@ Bottom spacing is provided with `chunk`.
 	</li>
 </ul>
 ```
-
 */
 ul, ol, .list, .menu-actions, .pagination,
 .list--reset {
@@ -1980,7 +2009,7 @@ ul, ol, .list, .menu-actions, .pagination,
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   padding-top: 16px;
 }
-.list-item:first-child, .hasJS .menu-actions-item:first-child {
+.list-item:first-child:not(a), .hasJS .menu-actions-item:first-child:not(a) {
   border-top: none;
   padding-top: 0;
 }
@@ -1992,8 +2021,68 @@ ul, ol, .list, .menu-actions, .pagination,
   list-style: none;
 }
 
+/*doc
+---
+title: List item variants
+name: listItemVariants
+parent: list
+---
+
+A class of `.list-item` is __required__ on list items. The
+following classes are optional variants:
+
+Class                   | Description
+----------------------- | -------------------------------
+`.list-item--active`    | adds a background color to denote selected/active state
+`.list-item--gutters`   | adds left and right padding to list item
+
+
+```html_example
+<div class="chunk">
+	<h2>Touchable list items with selection</h2>
+	<p>The <code>list-item</code> class can be applied to anchors instead for a touchable list</p>
+</div>
+<ul class="list">
+	<li>
+		<a href="#" class="list-item list-item--gutters">
+			<div class="chunk">
+				<h3 class="text--bold">Member Name</h3>
+				<p class="text--caption">Something blah blah</p>
+			</div>
+		</a>
+	</li>
+	<li>
+		<a href="#" class="list-item list-item--gutters list-item--active">
+			<div class="chunk">
+				<h3 class="text--bold">Member Name</h3>
+				<p class="text--caption">Something blah blah</p>
+			</div>
+		</a>
+	</li>
+	<li>
+		<a href="#" class="list-item list-item--gutters">
+			<div class="chunk">
+				<h3 class="text--bold">Member Name</h3>
+				<p class="text--caption">Something blah blah</p>
+			</div>
+		</a>
+	</li>
+</ul>
+```
+*/
 .list-item {
   margin: 0;
+  border-bottom: 1px solid transparent;
+}
+
+.list-item--gutters {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.list-item--active {
+  background-color: #f3f6f9;
+  font-weight: 700;
 }
 
 /*doc
@@ -2319,8 +2408,22 @@ each list item and right gutters between items.
 	<li><img src="https://placekitten.com/g/72/72" alt="fluffy kitten" /></li>
 	<li><img src="https://placekitten.com/g/72/72" alt="fluffy kitten" /></li>
 </ul>
+
+<ul class="inlineblockList inlineblockList--overlap">
+	<li><img src="https://placekitten.com/g/72/72" alt="fluffy kitten" /></li>
+	<li><img src="https://placekitten.com/g/72/72" alt="fluffy kitten" /></li>
+	<li><img src="https://placekitten.com/g/72/72" alt="fluffy kitten" /></li>
+	<li><img src="https://placekitten.com/g/72/72" alt="fluffy kitten" /></li>
+</ul>
 ```
 
+### Variants
+A class of `inlineblockList` is required; the following classes are
+optional variants:
+
+Class                        | Description
+---------------------------- | ------------------------------------------------------------
+`.inlineblockList--overlap`  | Creates an inline block list with overlapping list items
 */
 .hscroll-content,
 .inlineblockList {
@@ -2335,6 +2438,18 @@ each list item and right gutters between items.
 .hscroll-content > li:last-child,
 .inlineblockList > li:last-child {
   padding-right: 0;
+}
+
+.inlineblockList--overlap > li {
+  padding: 0;
+  margin-right: -8px;
+  border: 3px solid white;
+}
+.stripe--collection .inlineblockList--overlap > li {
+  border-color: #f3f6f9;
+}
+.inverted .inlineblockList--overlap > li {
+  border-color: #353e48;
 }
 
 /*doc
@@ -3203,11 +3318,6 @@ _See also: `.row`._
   table-layout: auto;
   width: 100%;
 }
-.ieRoot_lt_IE10 .column {
-  display: table;
-  table-layout: auto;
-  width: 100%;
-}
 
 /*doc
 ---
@@ -3686,18 +3796,64 @@ the "detail" responsibility.
   display: block;
 }
 
+.view--splitList {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100vh;
+  z-index: 15;
+}
+
 @media only screen and (min-width: 640px) {
-  .view--splitList {
+  .ieRoot_modern .view--splitList {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-justify-content: flex-start;
+    justify-content: flex-start;
+    -ms-flex-pack: start;
+    -webkit-box-align: flex;
+    box-align: flex;
+    -webkit-align-items: flex;
+    -ms-align-items: flex;
+    align-items: flex;
+    -ms-flex-align: flex;
+    box-sizing: border-box;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    -webkit-box-direction: normal;
+    box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    -webkit-box-lines: single;
+    box-lines: single;
+    -webkit-flex-wrap: "nowrap";
+    -ms-flex-wrap: "nowrap";
+    flex-wrap: "nowrap";
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
     width: 320px;
     border-right: 1px solid rgba(0, 0, 0, 0.12);
     display: block;
   }
+  .ieRoot_lt_IE10 .ieRoot_modern .view--splitList {
+    height: 100%;
+  }
+  .ieRoot_lt_IE10 .ieRoot_modern .view--splitList {
+    display: table;
+    table-layout: auto;
+    width: 100%;
+  }
 
-  .view--splitDetail {
+  .ieRoot_modern .view--splitDetail {
     display: block;
     padding-left: 320px;
   }
@@ -3750,11 +3906,18 @@ Class                      | Description
 }
 
 @media only screen and (min-width: 640px) {
-  .view--splitList .view-head {
+  .ieRoot_modern .view--splitList .view-head {
+    -webkit-flex-basis: 56px;
+    flex-basis: 56px;
+    -ms-flex-preferred-size: 56px;
+    -webkit-flex-grow: 0;
+    flex-grow: 0;
+    -ms-flex-positive: 0;
+    box-sizing: border-box;
     border-right: 1px solid rgba(0, 0, 0, 0.12);
     width: 320px;
   }
-  .view--splitDetail .view-head {
+  .ieRoot_modern .view--splitDetail .view-head {
     left: 320px;
     right: 0;
     width: auto;
@@ -3793,9 +3956,15 @@ content container for the view.
 </div>
 ```
 */
-.view--splitList .view-body {
-  height: 100vh;
-  overflow: auto;
+.view--splitList .ieRoot_modern .view-body {
+  -webkit-flex-basis: auto;
+  flex-basis: auto;
+  -ms-flex-preferred-size: auto;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+  -ms-flex-positive: 1;
+  box-sizing: border-box;
+  height: auto;
 }
 
 /*doc
@@ -4374,6 +4543,9 @@ _Ancestry only affects spacing in `attachment`. Text sizing remains explicit._
 .attachment .row-item {
   padding-left: 8px;
 }
+.attachment .row--noGutters > .row-item {
+  padding: 0;
+}
 @media only screen and (min-width: 640px) {
   .attachment.atMedium_spreadable--spread .spreadable-item,
   .attachment .atMedium_spreadable--spread .spreadable-item {
@@ -4395,12 +4567,15 @@ _Ancestry only affects spacing in `attachment`. Text sizing remains explicit._
   padding-top: 8px;
 }
 
+/*@import "ui-components/buttons";*/
 /*doc
 ---
-title: Buttons
+title: Buttons (transitional styles)
 name: buttons
 category: UI Components
 ---
+These buttons match the visual styles of the original [Sassquatch](http://meetup.github.io/sassquatch)
+framework, making them suitable for the transition of Meetup from legacy to "foundation" design.
 
 #### Example
 
@@ -4411,14 +4586,13 @@ category: UI Components
 	<span class="button-label">Button with right Icon</span>
 	<span class="button-icon">X</span>
 </a>
+<a class="button button--bordered button--fullWidth" href="#">Full width bordered button</a>
+<a class="button button--bordered" href="#">bordered button</a>
 <a class="button button--icon button--primary" href="#">
 	<span class="button-icon">X</span>
 	<span class="button-label">Primary button with left Icon</span>
 </a>
-<a class="button button--borderless" href="#">Borderless Button</a>
-<a class="button button--primary button--contrast" href="#">Contrast Button</a>
 <a class="button button--small" href="#">Small Button</a>
-<a class="button button--bordered button--fullWidth" href="#">Full width button</a>
 <a class="button button--primary button--icon button--fullWidth" href="#">
 	<span class="button-icon">ヘ(◕。◕ヘ)</span>
 	<span class="button-label">Full width primary button with left Icon</span>
@@ -4431,14 +4605,93 @@ classes are optional variants:
 
 Class                   | Description
 ----------------------- | ----------------------------------------
-`.button--primary`      | rounded button with dark background; for primary actions
-`.button--contrast`     | bold, dark text; use on dark backgrounds or photos (ie. top nav bar)
-`.button--bordered`     | rounded bordered button
-`.button--borderless`   | borderless button
+`.button--primary`      | button with $C_red background; for primary actions
 `.button--small`        | decreases size of button
 `.button--icon`         | button with icon
+`.button--fullWidth`    | increases button width to 100% of its parent container
+`.button--bordered`     | foundation design style rounded bordered buttons
 */
-.button, .toggleButton-label {
+.button--primary, .button--contrast, .button, .button--borderless {
+  position: relative;
+}
+.button--primary:after, .button--contrast:after, .button:after, .button--borderless:after {
+  content: '';
+  background: transparent;
+  position: absolute;
+  top: -4px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.button--primary, .button--contrast, .button, .button--borderless {
+  stroke: transparent;
+  fill: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.54);
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 10px 16px 8px 16px;
+  border-radius: 3px;
+  font-size: 16px;
+  line-height: 1;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 700;
+  border-width: 0;
+  box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.54);
+  margin-bottom: 4px;
+  background: #e6e9ec;
+}
+.button--primary:active, .button--contrast:active, .button:active, .button--borderless:active {
+  -webkit-transform: translate(0, 2px);
+  -ms-transform: translate(0, 2px);
+  transform: translate(0, 2px);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.54);
+}
+.button--primary:hover, .button--contrast:hover, .button:hover, .button--borderless:hover {
+  background: #cfd5da;
+}
+
+.button--primary {
+  stroke: transparent;
+  fill: #fff;
+  color: #fff;
+  background: #e2373c !important;
+  box-shadow: 0 3px 0 0 #861317 !important;
+}
+.button--primary:active {
+  box-shadow: 0 1px 0 0 #861317 !important;
+}
+.button--primary:hover {
+  background: #d21e24 !important;
+}
+
+.button--contrast {
+  stroke: transparent;
+  fill: #fff;
+  color: #fff;
+  background: #e2373c !important;
+  box-shadow: 0 3px 0 0 #861317 !important;
+}
+.button--contrast:active {
+  box-shadow: 0 1px 0 0 #861317 !important;
+}
+.button--contrast:hover {
+  background: #d21e24 !important;
+}
+
+.toggleButton-label,
+.button--small {
+  font-size: 13px !important;
+  padding: 4px 8px !important;
+}
+
+.button--fullWidth {
+  display: block;
+  width: 100%;
+}
+
+.button--bordered {
   box-sizing: border-box;
   -webkit-transition: background 0.15s;
   transition: background 0.15s;
@@ -4446,100 +4699,32 @@ Class                   | Description
   background: transparent;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 50px;
-  cursor: pointer;
   display: inline-block;
   font-size: 16px;
   font-weight: 700;
   margin: 0;
   padding: 8px 16px;
   text-align: center;
-}
-.button:focus, .toggleButton-label:focus {
-  outline: 0;
-}
-
-.button {
-  stroke: transparent;
-  fill: #3987cb;
-  color: #3987cb;
-}
-.button:hover,
-.button:active,
-.button:focus {
-  background: rgba(57, 135, 203, 0.2);
-  border-color: transparent;
-}
-
-.button--primary {
-  stroke: transparent;
-  fill: white !important;
-  color: white !important;
-  background: #3987cb;
-}
-.button--primary:hover,
-.button--primary:active,
-.button--primary:focus {
-  background: #619fd6;
-}
-.button--primary.button--contrast {
-  stroke: transparent;
-  fill: rgba(0, 0, 0, 0.87) !important;
-  color: rgba(0, 0, 0, 0.87) !important;
-  background: white;
-}
-.button--primary.button--contrast:hover,
-.button--primary.button--contrast:active,
-.button--primary.button--contrast:focus {
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.button--contrast {
-  stroke: transparent;
-  fill: white;
-  color: white;
-  background: rgba(0, 0, 0, 0.26);
-  border: 1px solid white;
-}
-.button--contrast:hover,
-.button--contrast:active,
-.button--contrast:focus {
-  background: rgba(0, 0, 0, 0.54);
-  border: 1px solid white;
-}
-
-.toggleButton-label {
   stroke: transparent;
   fill: #3987cb;
   color: #3987cb;
   border: 1px solid;
   font-weight: 400;
+  border-radius: 3px;
+  box-shadow: 0 0 0 0 transparent !important;
+  font-weight: 700;
+  padding: 10px 16px 8px 16px;
 }
-.toggleButton-label:hover, .toggleButton-label:active, .toggleButton-label:focus {
-  background: rgba(57, 135, 203, 0.2);
+.button--bordered:focus {
+  outline: 0;
 }
-
-.button--primary,
-.button--borderless {
-  border: none;
+.button--bordered:hover, .button--bordered:active, .button--bordered:focus {
+  background: rgba(57, 135, 203, 0.2) !important;
 }
-.button--primary:hover,
-.button--primary:active,
-.button--primary:focus,
-.button--borderless:hover,
-.button--borderless:active,
-.button--borderless:focus {
-  border: none;
-}
-
-.toggleButton-label,
-.button--small {
-  font-size: 13px;
-  padding: 4px 8px;
-}
-
-.button--fullWidth {
-  display: block;
-  width: 100%;
+.button--bordered:active {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
 }
 
 .button--icon {
@@ -4615,12 +4800,17 @@ Class                   | Description
 .button-icon:last-child {
   margin-left: 8px;
 }
+.button-icon.button--primary svg {
+  stroke: transparent;
+  fill: white;
+  color: white;
+}
 .ieRoot_lt_IE10 .button-icon {
   width: auto;
 }
 
 .button--small .button-icon {
-  height: 16px;
+  height: 16px !important;
 }
 
 /*doc
@@ -6405,6 +6595,7 @@ Sets background cover and position for photo thumbnails.
 .thumb {
   background-position: center;
   background-size: cover;
+  background-color: #e6e9ec;
   display: block;
   position: relative;
 }
@@ -6756,6 +6947,7 @@ textarea, pre {
   padding: 10px;
   font-size: 13px;
   font-family: Monaco, monospace;
+  min-height: 140px;
 }
 
 #samples {
@@ -6782,16 +6974,19 @@ h2 {
   box-sizing: border-box;
 }
 
-.spreadable-item label {
+label, .try-hbs--label {
   font-size: 16px;
   padding: 5px;
   margin-bottom: 5px;
   color: #582a00;
-  width: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+.try-hbs--select-label {
+  min-width: 90px !important;
 }
 
 #intro h1 {
@@ -6808,9 +7003,17 @@ h2 {
   padding: 10px;
 }
 
+#output-window-html h1 {
+  color: #000;
+}
+
 a {
   color: #6666cc;
   text-decoration: none;
+}
+
+ul {
+  list-style: inside;
 }
 
 /*# sourceMappingURL=main.css.map */
